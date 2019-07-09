@@ -135,7 +135,13 @@ Humanoid.prototype = Object.create(CharacterStats.prototype);
 function Villain(villAttr) {
   Humanoid.call(this, villAttr);
   this.attack = function() {
-    
+    console.log(`You will never defeat me!`);
+    if(Hero.healthPoints > 4) {
+      Hero.healthPoints - 4;
+      console.log(`Mua ha ha ha!`);
+    } else {
+      return Hero.destroy();
+    };
   }
 }
 Villain.prototype = Object.create(Humanoid.prototype);
@@ -143,10 +149,18 @@ Villain.prototype = Object.create(Humanoid.prototype);
 function Hero(heroAttr) {
   Humanoid.call(this, heroAttr);
   this.attack = function() {
-    
+    console.log(`Justice will prevail!`);
+    if(Villain.healthpoints > 4) {
+      Villain.healthPoints - 4;
+      console.log(`Evil will always be defeated.`);
+    } else {
+      return Villain.destroy();
+    }
   }
 }
 Hero.prototype = Object.create(Humanoid.prototype);
 
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  
