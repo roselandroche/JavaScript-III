@@ -19,7 +19,7 @@ function GameObject(attr) {
   this.createdAt = attr.createdAt;
   this.name = attr.name;
   this.dimensions = attr.dimensions;
-  const destroy = function() {
+  this.destroy = function() {
     return `${this.name} was removed from the game.`;
   }
 }
