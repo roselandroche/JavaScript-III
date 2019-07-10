@@ -32,7 +32,8 @@ function GameObject(attr) {
 function CharacterStats(charAttr) {
   GameObject.call(this, charAttr);
   this.healthPoints = charAttr.healthPoints;
-  this.takeDamage = function() {
+  this.takeDamage = function(num) {
+    this.healthPoints -= num;
     return `${this.name} took damage.`;
   }
 }
@@ -134,14 +135,13 @@ Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 function Villain(villAttr) {
   Humanoid.call(this, villAttr);
-  this.attack = function() {
+  this.attack = function(hero) {
     console.log(`You will never defeat me!`);
-    if(Hero.healthPoints > 4) {
-      Hero.healthPoints - 4;
+    if(hero.healthPoints > 4) {
+      console.log(hero.takeDamage(4));
       console.log(`Mua ha ha ha!`);
-      Hero.takeDamage();
     } else {
-      Hero.destroy();
+      console.log(hero.destroy());
     };
   }
 }
@@ -149,14 +149,13 @@ Villain.prototype = Object.create(Humanoid.prototype);
 
 function Hero(heroAttr) {
   Humanoid.call(this, heroAttr);
-  this.attack = function() {
+  this.attack = function(villain) {
     console.log(`Justice will prevail!`);
-    if(Villain.healthpoints > 4) {
-      Villain.healthPoints - 4;
+    if(villain.healthPoints > 4) {
+      console.log(villain.takeDamage(4));
       console.log(`Evil will always be defeated.`);
-      Villain.takeDamage();
     } else {
-      Villain.destroy();
+      console.log(villain.destroy());
     }
   }
 }
@@ -177,7 +176,7 @@ const bob = new Villain({
   team: 'League of Evil',
   weapons: [
     'Mace',
-    'Flame thrower',
+    'Ninja Stars',
   ],
   language: 'Pure Slang',
 });
@@ -199,4 +198,10 @@ const garnet = new Hero ({
   language: 'Sophisticated Alien',
 });
 
-garnet.attack();
+garnet.attack(bob);
+bob.attack(garnet);
+garnet.attack(bob);
+bob.attack(garnet);
+garnet.attack(bob);
+bob.attack(garnet);
+garnet.attack(bob);
