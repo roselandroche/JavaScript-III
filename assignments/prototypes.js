@@ -139,7 +139,7 @@ function Villain(villAttr) {
     if(Hero.healthPoints > 4) {
       Hero.healthPoints - 4;
       console.log(`Mua ha ha ha!`);
-      console.log(Hero.takeDamage);
+      console.log(Hero.takeDamage());
     } else {
       return Hero.destroy();
     };
@@ -154,7 +154,7 @@ function Hero(heroAttr) {
     if(Villain.healthpoints > 4) {
       Villain.healthPoints - 4;
       console.log(`Evil will always be defeated.`);
-      console.log(Villain.takeDamage);
+      console.log(Villain.takeDamage());
     } else {
       return Villain.destroy();
     }
@@ -165,3 +165,38 @@ Hero.prototype = Object.create(Humanoid.prototype);
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
 
+const robert = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 3,
+    width: 1,
+    height: 5,
+  },
+  healthPoints: 13,
+  name: 'Robert',
+  team: 'League of Evil',
+  weapons: [
+    'Mace',
+    'Flame thrower',
+  ],
+  language: 'Pure Slang',
+});
+
+const garnet = new Hero ({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 3,
+    height: 5,
+  },
+  healthPoints: 16,
+  name: 'Garnet',
+  team: 'The Crystal Gems',
+  weapons: [
+    'Gauntlets',
+    'Strength',
+  ],
+  language: 'Sophisticated Alien',
+});
+
+garnet.attack();
