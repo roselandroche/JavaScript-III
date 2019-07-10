@@ -23,7 +23,7 @@ console.log(this);
 
 // code example for Implicit Binding
 //
-// In this example 'this' refers to the person
+// In this example below 'this' refers to the person object
 
 function Person(attr) {
     this.name = attr.name;
@@ -34,14 +34,15 @@ function Person(attr) {
 
 // code example for New Binding
 
+// Here 'this' refers to the sarah object (it inherits statements with 'this' inside, which now refer to sarah)
+
 const sarah = new Person({name: 'Sarah'}); 
-
-
-// 'this' refers to Sarah
 
 // Principle 4
 
 // code example for Explicit Binding
+
+// Here 'this' is tied back to the object Person after it was originally created
 
 Person.prototype.hello = function() {
     console.log(`Hello ${this.name}!`);
