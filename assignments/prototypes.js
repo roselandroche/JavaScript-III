@@ -15,13 +15,30 @@
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
-
+function GameObject(attr) {
+  this.createdAt = attr.createdAt;
+  this.name = attr.name;
+  this.dimensions = attr.dimensions;
+  this.destroy = function() {
+    return `${this.name} was removed from the game.`;
+  }
+}
 /*
   === CharacterStats ===
   * healthPoints
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
+function CharacterStats(charAttr) {
+  GameObject.call(this, charAttr);
+  this.healthPoints = charAttr.healthPoints;
+  this.takeDamage = function(num) {
+    this.healthPoints -= num;
+    return `${this.name} took damage.`;
+  }
+}
+
+CharacterStats.prototype = Object.create(GameObject.prototype);
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -32,7 +49,16 @@
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
- 
+function Humanoid(humAttr) {
+  CharacterStats.call(this, humAttr);
+  this.team = humAttr.team;
+  this.weapons = humAttr.weapons;
+  this.language = humAttr.language;
+  this.greet = function() {
+    return `${this.name} offers a greeting in ${this.language}.`;
+  }
+}
+Humanoid.prototype = Object.create(CharacterStats.prototype);
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
@@ -41,7 +67,7 @@
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -102,9 +128,80 @@
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
+
+function Villain(villAttr) {
+  Humanoid.call(this, villAttr);
+  this.attack = function(hero) {
+    console.log(`You will never defeat me!`);
+    if(hero.healthPoints > 4) {
+      console.log(hero.takeDamage(4));
+      console.log(`Mua ha ha ha!`);
+    } else {
+      console.log(hero.destroy());
+    };
+  }
+}
+Villain.prototype = Object.create(Humanoid.prototype);
+
+function Hero(heroAttr) {
+  Humanoid.call(this, heroAttr);
+  this.attack = function(villain) {
+    console.log(`Justice will prevail!`);
+    if(villain.healthPoints > 4) {
+      console.log(villain.takeDamage(4));
+      console.log(`Evil will always be defeated.`);
+    } else {
+      console.log(villain.destroy());
+    }
+  }
+}
+Hero.prototype = Object.create(Humanoid.prototype);
+
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+const bob = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 3,
+    width: 1,
+    height: 5,
+  },
+  healthPoints: 13,
+  name: 'Bob',
+  team: 'League of Evil',
+  weapons: [
+    'Mace',
+    'Ninja Stars',
+  ],
+  language: 'Pure Slang',
+});
+
+const garnet = new Hero ({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 3,
+    height: 5,
+  },
+  healthPoints: 16,
+  name: 'Garnet',
+  team: 'The Crystal Gems',
+  weapons: [
+    'Gauntlets',
+    'Strength',
+  ],
+  language: 'Sophisticated Alien',
+});
+
+garnet.attack(bob);
+bob.attack(garnet);
+garnet.attack(bob);
+bob.attack(garnet);
+garnet.attack(bob);
+bob.attack(garnet);
+garnet.attack(bob);
